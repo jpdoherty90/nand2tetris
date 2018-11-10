@@ -14,11 +14,9 @@ CHIP FullAdder {
 
     PARTS:
 
-    Not(in=a, out=notA);
-    Xor(a=b, b=c, out=temp);
-    And(a=notA, b=temp, out=sum);
-
-    Xor(a=a, b=b, out=tempCarry);
-    And(a=tempCarry, b=c, out=carry);
+    HalfAdder(a=a, b=b, sum=s1, carry=c1);
+    Xor(a=s1, b=c, out=sum);
+    And(a=s1, b=c, out=andOut);
+    Xor(a=c1, b=andOut, out=carry);
 
 }

@@ -26,6 +26,8 @@
 // if (out == 0) set zr = 1
 // if (out < 0) set ng = 1
 
+
+
 CHIP ALU {
     IN  
         x[16], y[16],  // 16-bit inputs        
@@ -42,5 +44,99 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    
+    DMux(in=x[0], sel=zx, a=x0, b=ignored0);
+    DMux(in=x[1], sel=zx, a=x1, b=ignored1);
+    DMux(in=x[2], sel=zx, a=x2, b=ignored2);
+    DMux(in=x[3], sel=zx, a=x3, b=ignored3);
+    DMux(in=x[4], sel=zx, a=x4, b=ignored4);
+    DMux(in=x[5], sel=zx, a=x5, b=ignored5);
+    DMux(in=x[6], sel=zx, a=x6, b=ignored6);
+    DMux(in=x[7], sel=zx, a=x7, b=ignored7);
+    DMux(in=x[8], sel=zx, a=x8, b=ignored8);
+    DMux(in=x[9], sel=zx, a=x9, b=ignored9);
+    DMux(in=x[10], sel=zx, a=x10, b=ignored10);
+    DMux(in=x[11], sel=zx, a=x11, b=ignored11);
+    DMux(in=x[12], sel=zx, a=x12, b=ignored12);
+    DMux(in=x[13], sel=zx, a=x13, b=ignored13);
+    DMux(in=x[14], sel=zx, a=x14, b=ignored14);
+    DMux(in=x[15], sel=zx, a=x15, b=ignored15);
+
+    Xor(a=x0, b=nx, out=x20);
+    Xor(a=x1, b=nx, out=x21);
+    Xor(a=x2, b=nx, out=x22);
+    Xor(a=x3, b=nx, out=x23);
+    Xor(a=x4, b=nx, out=x24);
+    Xor(a=x5, b=nx, out=x25);
+    Xor(a=x6, b=nx, out=x26);
+    Xor(a=x7, b=nx, out=x27);
+    Xor(a=x8, b=nx, out=x28);
+    Xor(a=x9, b=nx, out=x29);
+    Xor(a=x10, b=nx, out=x210);
+    Xor(a=x11, b=nx, out=x211);
+    Xor(a=x12, b=nx, out=x212);
+    Xor(a=x13, b=nx, out=x213);
+    Xor(a=x14, b=nx, out=x214);
+    Xor(a=x15, b=nx, out=x215);
+    
+    DMux(in=y[0], sel=zy, a=y0, b=ignored20);
+    DMux(in=y[1], sel=zy, a=y1, b=ignored21);
+    DMux(in=y[2], sel=zy, a=y2, b=ignored22);
+    DMux(in=y[3], sel=zy, a=y3, b=ignored23);
+    DMux(in=y[4], sel=zy, a=y4, b=ignored24);
+    DMux(in=y[5], sel=zy, a=y5, b=ignored25);
+    DMux(in=y[6], sel=zy, a=y6, b=ignored26);
+    DMux(in=y[7], sel=zy, a=y7, b=ignored27);
+    DMux(in=y[8], sel=zy, a=y8, b=ignored28);
+    DMux(in=y[9], sel=zy, a=y9, b=ignored29);
+    DMux(in=y[10], sel=zy, a=y10, b=ignored210);
+    DMux(in=y[11], sel=zy, a=y11, b=ignored211);
+    DMux(in=y[12], sel=zy, a=y12, b=ignored212);
+    DMux(in=y[13], sel=zy, a=y13, b=ignored213);
+    DMux(in=y[14], sel=zy, a=y14, b=ignored214);
+    DMux(in=y[15], sel=zy, a=y15, b=ignored215);
+
+    Xor(a=y0, b=ny, out=y20);
+    Xor(a=y1, b=ny, out=y21);
+    Xor(a=y2, b=ny, out=y22);
+    Xor(a=y3, b=ny, out=y23);
+    Xor(a=y4, b=ny, out=y24);
+    Xor(a=y5, b=ny, out=y25);
+    Xor(a=y6, b=ny, out=y26);
+    Xor(a=y7, b=ny, out=y27);
+    Xor(a=y8, b=ny, out=y28);
+    Xor(a=y9, b=ny, out=y29);
+    Xor(a=y10, b=ny, out=y210);
+    Xor(a=y11, b=ny, out=y211);
+    Xor(a=y12, b=ny, out=y212);
+    Xor(a=y13, b=ny, out=y213);
+    Xor(a=y14, b=ny, out=y214);
+    Xor(a=y15, b=ny, out=y215);
+    
+    Bus16(a=x20, b=x21, c=x22, d=x23, e=x24, f=x25, g=x26, h=x27, i=x28, j=x29, k=x210, l=x211, m=x212, n=x213, o=x214, p=x215, out=xBus);
+    Bus16(a=y20, b=y21, c=y22, d=y23, e=y24, f=y25, g=y26, h=y27, i=y28, j=y29, k=y210, l=y211, m=y212, n=y213, o=y214, p=y215, out=yBus);
+
+    Add16(a=xBus, b=yBus, out=xySum);
+    And16(a=xBus, b=yBus, out=xyAnd);
+
+    Mux16(a=xyAnd, b=xySum, sel=f, out=fOut);
+
+    Bus16(a=no, b=no, c=no, d=no, e=no, f=no, g=no, h=no, i=no, j=no, k=no, l=no, m=no, n=no, o=no, p=no, out=noBus);
+
+    Xor16(a=fOut, b=noBus, out=temp);
+
+
+    NullCheck(in=temp, out=zr);
+
+    NegCheck(in=temp, out=ng);
+
+    Xor16(a=fOut, b=noBus, out=out);
+
+
+    
+
+
+
+    
+
 }

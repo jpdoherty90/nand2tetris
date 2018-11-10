@@ -1,0 +1,26 @@
+
+
+CHIP Bus16 {
+    IN a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p;
+    OUT out[16];
+
+    PARTS:
+    
+    And(a=a, b=true, out=out[0]);
+    And(a=b, b=true, out=out[1]);
+    And(a=c, b=true, out=out[2]);
+    And(a=d, b=true, out=out[3]);
+    And(a=e, b=true, out=out[4]);
+    And(a=f, b=true, out=out[5]);
+    And(a=g, b=true, out=out[6]);
+    And(a=h, b=true, out=out[7]);
+    And(a=i, b=true, out=out[8]);
+    And(a=j, b=true, out=out[9]);
+    And(a=k, b=true, out=out[10]);
+    And(a=l, b=true, out=out[11]);
+    And(a=m, b=true, out=out[12]);
+    And(a=n, b=true, out=out[13]);
+    And(a=o, b=true, out=out[14]);
+    And(a=p, b=true, out=out[15]);
+    
+}
